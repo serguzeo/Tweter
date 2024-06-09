@@ -1,15 +1,17 @@
 package com.serguzeo.StartSpring.security;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Claims;
+import lombok.Getter;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.time.Clock;
 
 import static com.serguzeo.StartSpring.security.SecurityConstants.JWT_EXPIRATION_TIME;
 import static com.serguzeo.StartSpring.security.SecurityConstants.JWT_SECRET;
@@ -21,7 +23,7 @@ public class TokenGenerator {
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION_TIME);
+        Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION_TIME * 1000);
 
         return Jwts.builder()
                 .subject(username)
@@ -49,7 +51,7 @@ public class TokenGenerator {
                     .parseSignedClaims(token);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new AuthenticationCredentialsNotFoundException(e.getMessage());
         }
     }
 }
