@@ -3,6 +3,8 @@ package com.serguzeo.StartSpring.services.impl;
 import com.serguzeo.StartSpring.dto.AuthResponseDto;
 import com.serguzeo.StartSpring.dto.LoginDto;
 import com.serguzeo.StartSpring.dto.RegisterDto;
+import com.serguzeo.StartSpring.exceptions.EmailAlreadyExistsException;
+import com.serguzeo.StartSpring.exceptions.UsernameAlreadyExistsException;
 import com.serguzeo.StartSpring.models.Role;
 import com.serguzeo.StartSpring.models.UserEntity;
 import com.serguzeo.StartSpring.repositories.IRoleRepository;
@@ -37,28 +39,24 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public ResponseEntity<AuthResponseDto> login(LoginDto loginDto) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginDto.getLogin(),
-                            loginDto.getPassword()
-                    )
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = tokenGenerator.generateToken(authentication);
-            return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
-        } catch (AuthenticationException e) {
-            return new ResponseEntity<>(new AuthResponseDto(e.getMessage()), HttpStatus.UNAUTHORIZED);
-        }
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getLogin(),
+                        loginDto.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = tokenGenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Map<String, String>> register(RegisterDto registerDto) {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
-            return new ResponseEntity<>(Collections.singletonMap("response", "Username is taken!"), HttpStatus.BAD_REQUEST);
+            throw new UsernameAlreadyExistsException("User with this username already exists");
         }
         if (userRepository.existsByEmail(registerDto.getEmail())) {
-            return new ResponseEntity<>(Collections.singletonMap("response", "Email is already in use!"), HttpStatus.BAD_REQUEST);
+            throw new EmailAlreadyExistsException("User with this email already exists");
         }
 
         UserEntity user = new UserEntity();

@@ -1,9 +1,11 @@
 spring:
+
   datasource:
     url: jdbc:postgresql://localhost:5432/SpringStart
     username: postgres
     password: 0018
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,3 +19,6 @@ spring:
   thymeleaf:
     suffix: .html
     prefix: classpath:/templates/
+
+  resources:
+    static-locations: classpath:/static/
