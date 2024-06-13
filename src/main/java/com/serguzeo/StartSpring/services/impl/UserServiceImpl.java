@@ -4,7 +4,9 @@ import com.serguzeo.StartSpring.dto.UserDto;
 import com.serguzeo.StartSpring.exceptions.ResourceNotFoundException;
 import com.serguzeo.StartSpring.mappers.UserMapper;
 import com.serguzeo.StartSpring.models.UserEntity;
+import com.serguzeo.StartSpring.models.UserFile;
 import com.serguzeo.StartSpring.repositories.IUserRepository;
+import com.serguzeo.StartSpring.services.I.IFileService;
 import com.serguzeo.StartSpring.services.I.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +24,7 @@ import java.util.UUID;
 @Primary
 public class UserServiceImpl implements IUserService {
     IUserRepository repository;
+    IFileService fileService;
 
     @Override
     public ResponseEntity<UserDto> findByUuid(UUID uuid) {
@@ -33,6 +37,27 @@ public class UserServiceImpl implements IUserService {
         String username = authentication.getName();
         Optional<UserEntity> user = repository.findByUsername(username);
         return createResponse(user);
+    }
+
+    @Override
+    public ResponseEntity<UserDto> setProfilePhoto(Authentication authentication, MultipartFile file) {
+        String username = authentication.getName();
+        Optional<UserEntity> userEntityOptional = repository.findByUsername(username);
+
+        // Check if user exists
+        UserDto userOldDto = createResponse(userEntityOptional).getBody();
+        UserEntity user = userEntityOptional.get();
+
+        if (user.getUserPhoto() != null) {
+            fileService.deleteUserFile(user.getUserPhoto().getUuid());
+        }
+        UserFile userFile = fileService.saveUserFile(user, file);
+
+        user.setUserPhoto(userFile);
+        repository.save(user);
+
+        UserDto userDto = UserMapper.INSTANCE.userEntityToUserDto(user);
+        return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 
     private ResponseEntity<UserDto> createResponse(Optional<UserEntity> user) {

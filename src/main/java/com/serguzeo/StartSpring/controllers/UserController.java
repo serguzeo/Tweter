@@ -3,10 +3,10 @@ package com.serguzeo.StartSpring.controllers;
 import com.serguzeo.StartSpring.dto.UserDto;
 import com.serguzeo.StartSpring.services.I.IUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -24,5 +24,10 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserDto> getProfile(Authentication authentication) {
         return userService.getProfile(authentication);
+    }
+
+    @PostMapping("/me/setProfilePhoto")
+    public ResponseEntity<UserDto> setProfilePhoto (Authentication authentication, @RequestParam MultipartFile file) {
+        return userService.setProfilePhoto(authentication, file);
     }
 }

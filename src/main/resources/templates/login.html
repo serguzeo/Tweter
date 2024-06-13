@@ -6,6 +6,13 @@
     <title>Login</title>
     <link rel="icon" type="image/x-icon" href="/img/ico.png"> <!-- Путь к иконке в браузере -->
     <link rel="stylesheet" href="/css/login.css"> <!-- Подключение CSS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('token')) {
+                window.location.href = '/home';
+            }
+        });
+    </script>
 </head>
 <body>
 <div class="login-container">

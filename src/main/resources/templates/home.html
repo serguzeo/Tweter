@@ -12,7 +12,10 @@
 <div class="container">
     <div class="sidebar-left">
         <div class="user-info">
-            <img src="/img/user.png" alt="User Icon">
+            <img id="userPhoto" src="/img/user.png" alt="User Icon">
+            <div id="loadingOverlay" class="loading-overlay">
+                <div class="loader"></div>
+            </div>
             <div class="user-details">
                 <h3>loading...</h3>
                 <p>loading...</p>
@@ -54,6 +57,6 @@
         </ul>
     </div>
 </div>
-<script src="/js/home.js"></script> <!-- Подключение JavaScript -->
+<script type="module" src="/js/home.js"></script> <!-- Подключение JavaScript -->
 </body>
 </html>

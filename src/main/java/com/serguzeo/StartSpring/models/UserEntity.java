@@ -2,6 +2,7 @@ package com.serguzeo.StartSpring.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "photo_uuid")
+    private UserFile userPhoto;
 
     public UserEntity() {
         this.uuid = UUID.randomUUID();

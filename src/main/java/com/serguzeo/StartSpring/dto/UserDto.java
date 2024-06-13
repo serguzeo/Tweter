@@ -1,5 +1,6 @@
 package com.serguzeo.StartSpring.dto;
 
+import com.serguzeo.StartSpring.models.UserFile;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -13,4 +14,5 @@ public class UserDto {
     private String lastName;
     private LocalDate dateOfBirth;
     private String email;
+    private UserFile userPhoto;
 }
