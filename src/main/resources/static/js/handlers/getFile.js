@@ -1,5 +1,5 @@
-export function getFile(userUuid) {
-    return fetch(`http://localhost:8080/api/v1/files/${userUuid}`, {
+export function getFile(fileUuid) {
+    return fetch(`/api/v1/files/${fileUuid}`, {
         method: 'GET',
         headers: {
             'Authorization': localStorage.getItem('token'),
@@ -8,21 +8,19 @@ export function getFile(userUuid) {
     })
         .then(response => {
             if (response.status === 200) {
-                return response.blob(); // Assuming the file is returned as a blob
+                return response.blob();
             } else if (response.status === 401) {
                 localStorage.clear();
                 window.location.href = '/login';
+                throw new Error('Unauthorized');
             } else {
                 throw new Error('Failed to fetch file');
             }
         })
         .then(blob => {
-            // Create a URL for the blob and return it
-            const url = URL.createObjectURL(blob);
-            return url;
+            return URL.createObjectURL(blob);
         })
         .catch(error => {
-            console.error('Error:', error);
-            throw error;
+            console.error('Error fetching file:', error);
         });
 }

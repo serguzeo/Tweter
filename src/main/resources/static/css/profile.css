@@ -1,0 +1,222 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sidebar-left, .sidebar-right {
+    width: 20%;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-left ul, .sidebar-right ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-left li, .sidebar-right li {
+    margin-bottom: 20px;
+}
+
+.sidebar-left a, .sidebar-right a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.sidebar-left a:hover, .sidebar-right a:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    width: 60%;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.post-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.post-box textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.post-box button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-box button:hover {
+    background-color: #0056b3;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+}
+
+.post {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.post h3 {
+    margin: 0;
+    margin-bottom: 10px;
+    color: #333333;
+}
+
+.post p {
+    margin: 0;
+    color: #666666;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-details h3 {
+    margin: 0;
+    color: #333;
+}
+
+.user-details p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Скрыт по умолчанию */
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid #3498db;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.user-profile .profile-photo {
+    width: 120px; /* Увеличиваем ширину фото до 120px */
+    height: 120px; /* Увеличиваем высоту фото до 120px */
+    border-radius: 50%; /* Делаем фото круглым */
+    margin-right: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для фото */
+}
+
+.user-profile .profile-photo {
+    transition: filter 0.3s ease; /* Плавный переход для фильтра */
+}
+
+.user-profile .profile-photo.darken-image {
+    filter: brightness(70%); /* Уменьшаем яркость до 70% при наведении */
+}
+
+.user-profile .user-meta {
+    flex: 1; /* Занимаем все доступное пространство */
+}
+
+.user-profile .user-fullname {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 28px; /* Увеличиваем размер имени пользователя */
+    color: #333;
+}
+
+.user-profile .user-tag {
+    margin: 0;
+    color: #666;
+    font-size: 20px; /* Увеличиваем размер тэга пользователя */
+}
+
+.user-profile .user-bio {
+    margin-top: 10px;
+    margin-bottom: 0;
+    color: #777;
+    font-size: 16px; /* Уменьшаем размер биографии пользователя */
+    line-height: 1.4; /* Увеличиваем межстрочный интервал */
+}
+
+.user-profile .user-follow-stats {
+    margin-top: 10px;
+}
+
+.user-profile .user-follow-stats a {
+    text-decoration: none;
+    color: #007bff;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+.user-profile .user-follow-stats a:hover {
+    text-decoration: underline;
+}

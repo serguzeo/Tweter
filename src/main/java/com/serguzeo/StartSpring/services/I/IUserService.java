@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public interface IUserService {
     ResponseEntity<UserDto> findByUuid(UUID uuid);
+    ResponseEntity<UserDto> findByUsername(String username);
     ResponseEntity<UserDto> getProfile(Authentication authentication);
     ResponseEntity<UserDto> setProfilePhoto(Authentication authentication, MultipartFile file);
 }

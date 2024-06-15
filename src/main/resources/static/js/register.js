@@ -4,28 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const username = document.getElementById('username').value;
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        const dateOfBirth = document.getElementById('dateOfBirth').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        const registerData = {
-            username: username,
-            firstName: firstName,
-            lastName: lastName,
-            dateOfBirth: dateOfBirth,
-            email: email,
-            password: password
-        };
+        const formData = new FormData();
+        formData.append('username', document.getElementById('username').value);
+        formData.append('firstName', document.getElementById('firstName').value);
+        formData.append('lastName', document.getElementById('lastName').value);
+        formData.append('dateOfBirth', document.getElementById('dateOfBirth').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('password', document.getElementById('password').value);
 
         fetch('/api/v1/auth/register', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(registerData)
+            body: formData
         })
             .then(response => {
                 if (response.status === 201) {

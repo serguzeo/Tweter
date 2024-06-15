@@ -17,13 +17,13 @@ import java.util.Map;
 public class AuthController {
     private IAuthService authService;
 
-    @PostMapping("login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDto> login(@ModelAttribute LoginDto loginDto) {
         return authService.login(loginDto);
     }
 
-    @PostMapping("register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDto registerDto) {
+    @PostMapping("/register")
+    public ResponseEntity<Map<String, String>> register(@ModelAttribute RegisterDto registerDto) {
         return authService.register(registerDto);
     }
 }

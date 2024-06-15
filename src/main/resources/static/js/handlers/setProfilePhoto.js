@@ -1,4 +1,4 @@
-export function setUserPhoto(file) {
+export function setProfilePhoto(file) {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -12,13 +12,14 @@ export function setUserPhoto(file) {
         .then(response => {
             if (response.status === 201) {
                 return response.json();
-            } else {
-                throw new Error('Failed to set user photo');
+            } else if (response.status === 401) {
+                localStorage.clear();
+                window.location.href = '/login';
             }
         })
         .then(data => {
-            const photoUUID = data.userPhoto.uuid;
-            return fetch(`/api/v1/files/${photoUUID}`, {
+            const photoUuid = data.userPhoto.uuid;
+            return fetch(`/api/v1/files/${photoUuid}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': localStorage.getItem('token')
@@ -27,12 +28,10 @@ export function setUserPhoto(file) {
         })
         .then(response => {
             if (response.status === 200) {
-                return response.blob();
-            } else {
-                throw new Error('Failed to fetch user photo');
+                return URL.createObjectURL(response.blob());
+            } else if (response.status === 401) {
+                localStorage.clear();
+                window.location.href = '/login';
             }
         })
-        .then(blob => {
-            return URL.createObjectURL(blob);
-        });
 }

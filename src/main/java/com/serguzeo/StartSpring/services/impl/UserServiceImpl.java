@@ -5,6 +5,7 @@ import com.serguzeo.StartSpring.exceptions.ResourceNotFoundException;
 import com.serguzeo.StartSpring.mappers.UserMapper;
 import com.serguzeo.StartSpring.models.UserEntity;
 import com.serguzeo.StartSpring.models.UserFile;
+import com.serguzeo.StartSpring.repositories.IFileRepository;
 import com.serguzeo.StartSpring.repositories.IUserRepository;
 import com.serguzeo.StartSpring.services.I.IFileService;
 import com.serguzeo.StartSpring.services.I.IUserService;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,10 +27,17 @@ import java.util.UUID;
 public class UserServiceImpl implements IUserService {
     IUserRepository repository;
     IFileService fileService;
+    IFileRepository fileRepository;
 
     @Override
     public ResponseEntity<UserDto> findByUuid(UUID uuid) {
         Optional<UserEntity> user = repository.findByUuid(uuid);
+        return createResponse(user);
+    }
+
+    @Override
+    public ResponseEntity<UserDto> findByUsername(String username) {
+        Optional<UserEntity> user = repository.findByUsername(username);
         return createResponse(user);
     }
 
@@ -42,11 +51,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ResponseEntity<UserDto> setProfilePhoto(Authentication authentication, MultipartFile file) {
         String username = authentication.getName();
-        Optional<UserEntity> userEntityOptional = repository.findByUsername(username);
-
-        // Check if user exists
-        UserDto userOldDto = createResponse(userEntityOptional).getBody();
-        UserEntity user = userEntityOptional.get();
+        Optional<UserEntity> userOptional = repository.findByUsername(username);
+        UserEntity user = userOptional.orElseThrow(() -> new AuthenticationCredentialsNotFoundException("User not found"));
 
         if (user.getUserPhoto() != null) {
             fileService.deleteUserFile(user.getUserPhoto().getUuid());

@@ -14,7 +14,7 @@ public class FileController {
     private final IFileService fileService;
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<?> getFile(@PathVariable String uuid) {
+    public ResponseEntity<?> findFile(@PathVariable String uuid) {
         return fileService.getUserFileByUuid(UUID.fromString(uuid));
     }
 

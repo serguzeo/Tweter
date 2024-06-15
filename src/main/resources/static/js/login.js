@@ -3,21 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        const loginData = {
-            login: username,
-            password: password
-        };
+        const formData = new FormData();
+        formData.append('login', document.getElementById('login').value);
+        formData.append('password', document.getElementById('password').value);
 
         fetch('/api/v1/auth/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginData)
+            body: formData
         })
             .then(response => response.json())
             .then(data => {

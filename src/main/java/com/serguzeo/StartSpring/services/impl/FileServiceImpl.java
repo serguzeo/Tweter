@@ -74,12 +74,7 @@ public class FileServiceImpl implements IFileService {
 
             UUID fileUuid = UUID.randomUUID();
 
-            String filename = slg.slugify(file.getOriginalFilename());
-            int lastIndex = filename.lastIndexOf('_');
-            if (lastIndex != -1) {
-                filename = filename.substring(0, lastIndex) + "." + filename.substring(lastIndex + 1);
-            }
-
+            String filename = slugifyFilename(file.getOriginalFilename());
             String systemFileName = fileUuid + "_" + filename;
             Path filePath = userDir.resolve(systemFileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -93,12 +88,19 @@ public class FileServiceImpl implements IFileService {
             userFile.setContentType(file.getContentType());
             userFile.setUser(user);
 
-            fileRepository.save(userFile);
-
-            return userFile;
+            return fileRepository.save(userFile);
         } catch (IOException e) {
             throw new FileUploadError("Failed to save file");
         }
+    }
+
+    private String slugifyFilename(String originalFilename) {
+        String filename = slg.slugify(originalFilename);
+        int lastIndex = filename.lastIndexOf('_');
+        if (lastIndex != -1) {
+            filename = filename.substring(0, lastIndex) + "." + filename.substring(lastIndex + 1);
+        }
+        return filename;
     }
 
     @Override

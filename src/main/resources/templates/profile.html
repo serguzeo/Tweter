@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="icon" type="image/x-icon" href="/img/ico.png">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 
 <body>
@@ -13,9 +13,6 @@
     <div class="sidebar-left">
         <div class="user-info">
             <img id="userPhoto" src="/img/user.png" alt="User Icon">
-            <div id="loadingOverlay" class="loading-overlay">
-                <div class="loader"></div>
-            </div>
             <div class="user-details">
                 <h3>loading...</h3>
                 <p>loading...</p>
@@ -30,9 +27,22 @@
         </ul>
     </div>
     <div class="main-content">
-        <div class="post-box">
-            <textarea placeholder="What's happening?"></textarea>
-            <button>Tweet</button>
+        <div class="profile-header">
+            <div class="user-profile">
+                <img id="profileUserPhoto" class="profile-photo" src="/img/user.png" alt="User Icon">
+                <div id="loadingOverlay" class="loading-overlay">
+                    <div class="loader"></div>
+                </div>
+                <div class="user-meta">
+                    <h1 class="user-fullname">User Full Name</h1>
+                    <p class="user-tag">@username</p>
+                    <p class="user-bio">User Bio Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <div class="user-follow-stats">
+                        <a href="/profile/username/following">Following (<span id="followingCount">0</span>)</a>
+                        <a href="/profile/username/followers">Followers (<span id="followersCount">0</span>)</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="posts">
             <!-- Примеры постов -->
@@ -57,6 +67,6 @@
         </ul>
     </div>
 </div>
-<script type="module" src="/js/home.js"></script> <!-- Подключение JavaScript -->
+<script type="module" src="/js/profile.js"></script> <!-- Подключение JavaScript -->
 </body>
 </html>

@@ -21,6 +21,11 @@ public class UserController {
         return userService.findByUuid(UUID.fromString(uuid));
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDto> findUserByUsername (@PathVariable String username) {
+        return userService.findByUsername(username);
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserDto> getProfile(Authentication authentication) {
         return userService.getProfile(authentication);
