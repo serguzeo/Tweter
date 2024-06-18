@@ -15,6 +15,9 @@ export function setProfilePhoto(file) {
             } else if (response.status === 401) {
                 localStorage.clear();
                 window.location.href = '/login';
+                return Promise.reject('Unauthorized');
+            } else {
+                return Promise.reject('Failed to set profile photo');
             }
         })
         .then(data => {
@@ -28,10 +31,21 @@ export function setProfilePhoto(file) {
         })
         .then(response => {
             if (response.status === 200) {
-                return URL.createObjectURL(response.blob());
+                return response.blob();
             } else if (response.status === 401) {
                 localStorage.clear();
                 window.location.href = '/login';
+                return Promise.reject('Unauthorized');
+            } else {
+                return Promise.reject('Failed to fetch photo');
             }
         })
+        .then(blob => {
+            const objectURL = URL.createObjectURL(blob);
+
+            return objectURL;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
