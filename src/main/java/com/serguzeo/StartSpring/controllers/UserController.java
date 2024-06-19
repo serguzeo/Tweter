@@ -1,8 +1,10 @@
 package com.serguzeo.StartSpring.controllers;
 
+import com.serguzeo.StartSpring.dto.PutUserDto;
 import com.serguzeo.StartSpring.dto.UserDto;
 import com.serguzeo.StartSpring.services.I.IUserService;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +33,9 @@ public class UserController {
         return userService.getProfile(authentication);
     }
 
-    @PostMapping("/me/setProfilePhoto")
-    public ResponseEntity<UserDto> setProfilePhoto (Authentication authentication, @RequestParam MultipartFile file) {
-        return userService.setProfilePhoto(authentication, file);
+    @PutMapping("/me")
+    public ResponseEntity<UserDto> updateProfile(Authentication authentication, @ModelAttribute PutUserDto putUserDto)
+            throws BadRequestException {
+        return userService.updateProfile(authentication, putUserDto);
     }
 }

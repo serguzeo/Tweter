@@ -1,6 +1,6 @@
 import {getMyUsername} from "./handlers/getMyUsername.js";
 import {fillLeftBar} from "./fillers/fillLeftBar.js";
-import {setProfilePhoto} from "./handlers/setProfilePhoto.js";
+import {updateProfile} from "./handlers/updateProfile.js";
 import {getUserProfile} from "./handlers/getProfile.js";
 import {getFile} from "./handlers/getFile.js";
 
@@ -26,7 +26,9 @@ function addListeners() {
             if (file) {
                 loadingOverlay.style.display = 'flex';
 
-                setProfilePhoto(file)
+                const formData = new FormData();
+                formData.append('file', file);
+                updateProfile(formData)
                     .then(photoUrl => {
                         userLeftPhoto.src = photoUrl;
                         userProfilePhoto.src = photoUrl;
