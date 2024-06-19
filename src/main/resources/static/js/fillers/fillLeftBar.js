@@ -7,6 +7,12 @@ export async function fillLeftBar(username) {
     const userNameElement = userDetailContainer.querySelector('h3');
     const userUsernameElement = userDetailContainer.querySelector('p');
     const userImage = document.querySelector('.user-info img');
+    const logoutButton = document.getElementById("logout")
+    
+    logoutButton.addEventListener('click', function() {
+        localStorage.clear();
+        window.location.href = '/login';
+    })
 
     try {
         const user = await getUserProfile(username);

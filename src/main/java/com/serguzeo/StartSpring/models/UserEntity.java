@@ -22,6 +22,7 @@ public class UserEntity {
     private LocalDate dateOfBirth;
     @Column(unique = true)
     private String email;
+    private String bio;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -36,7 +37,9 @@ public class UserEntity {
     @JoinColumn(name = "photo_uuid")
     private UserFile userPhoto;
 
-    public UserEntity() {
-        this.uuid = UUID.randomUUID();
+    @PrePersist
+    protected void onCreate() {
+        uuid = UUID.randomUUID();
+        bio = "Hello! I am using Tweter! I am very happy!";
     }
 }

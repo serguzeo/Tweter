@@ -1,9 +1,7 @@
-export function setProfilePhoto(file) {
-    const formData = new FormData();
-    formData.append('file', file);
+export function updateProfile(formData) {
 
-    return fetch('/api/v1/users/me/setProfilePhoto', {
-        method: 'POST',
+    return fetch('/api/v1/users/me', {
+        method: 'PUT',
         headers: {
             'Authorization': localStorage.getItem('token')
         },

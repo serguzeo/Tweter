@@ -10,7 +10,6 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(target = "userPhoto.user", ignore = true)
     UserDto userEntityToUserDto(UserEntity userEntity);
     UserEntity userDtoToUserEntity(UserDto userDto);
 }
