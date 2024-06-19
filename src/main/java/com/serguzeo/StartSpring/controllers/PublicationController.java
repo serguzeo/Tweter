@@ -5,7 +5,6 @@ import com.serguzeo.StartSpring.dto.PublicationDto;
 import com.serguzeo.StartSpring.repositories.IPublicationRepository;
 import com.serguzeo.StartSpring.services.I.IPublicationService;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
