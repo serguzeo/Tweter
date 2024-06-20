@@ -3,23 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>User List</title>
     <link rel="icon" type="image/x-icon" href="/img/ico.png">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/userList.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 <div class="container">
     <div class="sidebar-left">
         <div class="user-info">
             <img id="userPhoto" src="/img/user.png" alt="User Icon">
-            <div id="loadingOverlay" class="loading-overlay">
-                <div class="loader"></div>
-            </div>
             <div class="user-details">
-                <h3>loading...</h3>
-                <p>loading...</p>
+                <h3>Loading...</h3>
+                <p>Loading...</p>
             </div>
         </div>
         <ul>
@@ -31,21 +27,7 @@
         </ul>
     </div>
     <div class="main-content">
-        <div class="post-box">
-            <textarea placeholder="What's happening?"></textarea>
-            <button>Tweet</button>
-        </div>
-        <div class="posts">
-            <!-- Примеры постов -->
-            <div class="post">
-                <h3>User 1</h3>
-                <p>This is a sample tweet!</p>
-            </div>
-            <div class="post">
-                <h3>User 2</h3>
-                <p>Another example tweet.</p>
-            </div>
-            <!-- Добавьте больше постов здесь -->
+        <div id="userListContainer">
         </div>
     </div>
     <div class="sidebar-right">
@@ -54,6 +36,6 @@
         </ul>
     </div>
 </div>
-<script type="module" src="/js/home.js"></script> <!-- Подключение JavaScript -->
+<script type="module" src="/js/userList.js"></script>
 </body>
 </html>

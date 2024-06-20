@@ -113,7 +113,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    private UserEntity getUserEntityFromAuthentication(Authentication authentication) {
+    public UserEntity getUserEntityFromAuthentication(Authentication authentication) {
         String username = authentication.getName();
         Optional<UserEntity> userOptional = repository.findByUsername(username);
         return userOptional.orElseThrow(() -> new AuthenticationCredentialsNotFoundException("User not found"));

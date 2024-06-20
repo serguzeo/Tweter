@@ -8,14 +8,12 @@ export function updateProfile(formData) {
         body: formData
     })
         .then(response => {
-            if (response.status === 201) {
+            if (response.status === 200) {
                 return response.json();
             } else if (response.status === 401) {
                 localStorage.clear();
                 window.location.href = '/login';
                 return Promise.reject('Unauthorized');
-            } else {
-                return Promise.reject('Failed to set profile photo');
             }
         })
         .then(data => {

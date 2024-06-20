@@ -1,7 +1,6 @@
-import {getFile} from "./getFile.js";
+export function getFollowers(user_uuid) {
 
-export function getUserProfile(username) {
-    return fetch('/api/v1/users/username/' + username, {
+    return fetch('/api/v1/users/' + user_uuid + '/followers', {
         method: 'GET',
         headers: {
             'Authorization': localStorage.getItem('token')
@@ -15,17 +14,6 @@ export function getUserProfile(username) {
                 window.location.href = '/login';
             } else if (response.status === 404) {
                 window.location.href = '/404';
-            }
-        })
-        .then(user => {
-            if (user.userPhoto && user.userPhoto.uuid) {
-                return getFile(user.userPhoto.uuid).then(photoUrl => {
-                    user.userPhotoUrl = photoUrl;
-                    return user;
-                });
-            } else {
-                user.userPhotoUrl = '/img/user.png';
-                return user;
             }
         })
         .catch(error => {

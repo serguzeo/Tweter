@@ -37,12 +37,13 @@
                 <div class="user-meta">
                     <h1 class="user-fullname">User Full Name</h1>
                     <p class="user-tag">@username</p>
-                    <p class="user-bio">User Bio Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="user-bio">loading...</p>
                     <div class="user-follow-stats">
-                        <a href="/profile/username/following">Following (<span id="followingCount">0</span>)</a>
-                        <a href="/profile/username/followers">Followers (<span id="followersCount">0</span>)</a>
+                        <a id="following" href="#">Following (<span id="followingCount">0</span>)</a>
+                        <a id="followers" href="#">Followers (<span id="followersCount">0</span>)</a>
                     </div>
                 </div>
+                <button class="edit-button" style="display: none;">&#9998; Edit</button>
                 <button id="followButton" class="follow-button">Follow</button>
             </div>
         </div>
@@ -61,11 +62,7 @@
     </div>
     <div class="sidebar-right">
         <h2>Following</h2>
-        <ul>
-            <li><a href="/profile/user1">User 1</a></li>
-            <li><a href="/profile/user2">User 2</a></li>
-            <li><a href="/profile/user3">User 3</a></li>
-            <!-- Добавьте больше подписок здесь -->
+        <ul id="followingList">
         </ul>
     </div>
 </div>

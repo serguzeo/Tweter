@@ -2,72 +2,78 @@ import {getMyUsername} from "./handlers/getMyUsername.js";
 import {fillLeftBar} from "./fillers/fillLeftBar.js";
 import {updateProfile} from "./handlers/updateProfile.js";
 import {getUserProfile} from "./handlers/getProfile.js";
-import {getFile} from "./handlers/getFile.js";
+import {subscribe} from "./handlers/subscribe.js";
+import {unsubscribe} from "./handlers/unsubscribe.js";
+import {fillRightBar} from "./fillers/fillRightBar.js";
+import {updateUserProfileUI} from "./fillers/updateUserProfileUI.js";
+import {addPhotoListeners} from "./fillers/addPhotoListeners.js";
+import {setupEditButton} from "./fillers/setupEditButton.js";
+import {setupFollowButton} from "./fillers/setupFollowButton.js";
+import {fillUserStats} from "./fillers/fillUserStats.js";
+
 
 function addListeners() {
-    const userLeftPhoto = document.getElementById('userPhoto')
-    const userProfilePhoto = document.getElementById('profileUserPhoto');
-    const loadingOverlay = document.getElementById('loadingOverlay');
+    // add event listeners for edit button
+    const editButton = document.querySelector('.edit-button');
+    const userBio = document.querySelector('.user-meta .user-bio');
+    editButton.addEventListener('click', () => {
+        if (editButton.textContent === '✎ Edit') {
+            editButton.textContent = 'Save';
 
-    userProfilePhoto.addEventListener('mouseover', function() {
-        userProfilePhoto.classList.add('darken-image');
+            userBio.contentEditable = 'true';
+            userBio.style.border = '1px solid #ccc';
+            userBio.style.padding = '5px';
+            userBio.focus();
+        } else {
+            editButton.textContent = '✎ Edit';
+            userBio.contentEditable = 'false';
+            userBio.style.border = 'none';
+            userBio.style.padding = '0';
+
+            const formData = new FormData();
+            formData.append("bio", userBio.textContent);
+            updateProfile(formData);
+        }
     });
 
-    userProfilePhoto.addEventListener('mouseout', function() {
-        userProfilePhoto.classList.remove('darken-image');
-    });
-
-    userProfilePhoto.addEventListener('click', function() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.jpg, .jpeg, .png';
-        input.addEventListener('change', function() {
-            const file = input.files[0];
-            if (file) {
-                loadingOverlay.style.display = 'flex';
-
-                const formData = new FormData();
-                formData.append('file', file);
-                updateProfile(formData)
-                    .then(photoUrl => {
-                        userLeftPhoto.src = photoUrl;
-                        userProfilePhoto.src = photoUrl;
-                        loadingOverlay.style.display = 'none';
-                    })
-                    .catch(error => {
-                        console.error('Error setting user photo:', error);
-                        loadingOverlay.style.display = 'none';
-                    });
-            }
-        });
-        input.click();
+    // add event listeners for follow button
+    const followButton = document.querySelector('.follow-button');
+    followButton.addEventListener('click', function() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (followButton.textContent === "Follow") {
+            subscribe(user.uuid)
+        } else {
+            unsubscribe(user.uuid)
+        }
     });
 }
 
-
-document.addEventListener('DOMContentLoaded', async function() {
+async function initialize() {
+    // fill left and right bar using current authenticated user
     const userUsername = await getMyUsername();
+    const myUser = await getUserProfile(userUsername);
     await fillLeftBar(userUsername);
+    await fillRightBar(userUsername);
 
+    // get user profile using url path
     const urlPath = window.location.pathname;
     const usernameFromUrl = urlPath.split('/')[1];
+    const user = await getUserProfile(usernameFromUrl);
 
-    if (usernameFromUrl) {
-        if (usernameFromUrl === userUsername) {
-            addListeners();
-        }
+    // update profile UI
+    await updateUserProfileUI(user);
+    await fillUserStats(user);
 
-        const user = await getUserProfile(usernameFromUrl);
-        const userFullnameElement = document.querySelector('.user-meta .user-fullname');
-        const userTag = document.querySelector('.user-meta .user-tag');
-        const userBio = document.querySelector('.user-meta .user-bio');
-
-        userFullnameElement.textContent = user.firstName + ' ' + user.lastName;
-        userTag.textContent = '@' + user.username;
-
-        if (user.userPhoto) {
-            const userProfilePhoto = document.getElementById('profileUserPhoto');
-            userProfilePhoto.src = await getFile(user.userPhoto.uuid);
-        }
+    // detect if profile is current authenticated user profile or not
+    if (usernameFromUrl === userUsername) {
+        setupEditButton();
+        await addPhotoListeners();
+    } else {
+        await setupFollowButton(myUser, user);
     }
-});
+
+    // add listeners for follow and setup button
+    addListeners();
+}
+
+document.addEventListener('DOMContentLoaded', initialize);

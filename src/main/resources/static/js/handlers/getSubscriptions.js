@@ -1,7 +1,7 @@
-import {getFile} from "./getFile.js";
+export function getSubscriptions(user_uuid) {
+    const followButton = document.querySelector('.follow-button');
 
-export function getUserProfile(username) {
-    return fetch('/api/v1/users/username/' + username, {
+    return fetch('/api/v1/users/' + user_uuid + '/subscriptions', {
         method: 'GET',
         headers: {
             'Authorization': localStorage.getItem('token')
@@ -9,23 +9,16 @@ export function getUserProfile(username) {
     })
         .then(response => {
             if (response.status === 200) {
+                if (followButton) {
+                    followButton.classList.add('followed');
+                    followButton.textContent = 'Followed';
+                }
                 return response.json();
             } else if (response.status === 401) {
                 localStorage.clear();
                 window.location.href = '/login';
             } else if (response.status === 404) {
                 window.location.href = '/404';
-            }
-        })
-        .then(user => {
-            if (user.userPhoto && user.userPhoto.uuid) {
-                return getFile(user.userPhoto.uuid).then(photoUrl => {
-                    user.userPhotoUrl = photoUrl;
-                    return user;
-                });
-            } else {
-                user.userPhotoUrl = '/img/user.png';
-                return user;
             }
         })
         .catch(error => {

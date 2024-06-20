@@ -82,7 +82,7 @@ public class PublicationServiceImpl implements IPublicationService {
     @Override
     public ResponseEntity<PublicationDto> updatePublication(UUID publicationUuid, NewPublicationDto newPublicationDto) {
         Publication publication = publicationRepository.findByUuid(publicationUuid)
-                .orElseThrow(() -> new ResourceNotFoundException("Publication not found with id: " + publicationUuid));
+                .orElseThrow(() -> new ResourceNotFoundException("No such publication found: " + publicationUuid));
 
         if (newPublicationDto.getText() != null) {
             publication.setText(newPublicationDto.getText());
