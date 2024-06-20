@@ -10,6 +10,7 @@ import {addPhotoListeners} from "./fillers/addPhotoListeners.js";
 import {setupEditButton} from "./fillers/setupEditButton.js";
 import {setupFollowButton} from "./fillers/setupFollowButton.js";
 import {fillUserStats} from "./fillers/fillUserStats.js";
+import {fillProfilePosts} from "./publicationTools/fillPosts.js";
 
 
 function addListeners() {
@@ -55,6 +56,7 @@ async function initialize() {
     await fillLeftBar(userUsername);
     await fillRightBar(userUsername);
 
+
     // get user profile using url path
     const urlPath = window.location.pathname;
     const usernameFromUrl = urlPath.split('/')[1];
@@ -63,6 +65,7 @@ async function initialize() {
     // update profile UI
     await updateUserProfileUI(user);
     await fillUserStats(user);
+    await fillProfilePosts(user);
 
     // detect if profile is current authenticated user profile or not
     if (usernameFromUrl === userUsername) {

@@ -32,7 +32,7 @@ public class FollowServiceImpl implements IFollowService {
     @Override
     public ResponseEntity<Map<String, String>> subscribe(Authentication authentication, UUID uuid) {
         UserEntity follower = userService.getUserEntityFromAuthentication(authentication);
-        UserEntity following = getUserEntityByUuid(uuid);
+        UserEntity following = userService.getUserEntityByUuid(uuid);
 
         Follow follow = new Follow();
         follow.setFollower(follower);
@@ -49,7 +49,7 @@ public class FollowServiceImpl implements IFollowService {
     @Override
     public ResponseEntity<?> unsubscribe(Authentication authentication, UUID uuid) {
         UserEntity follower = userService.getUserEntityFromAuthentication(authentication);
-        UserEntity following = getUserEntityByUuid(uuid);
+        UserEntity following = userService.getUserEntityByUuid(uuid);
         Optional<Follow> follow = followRepository.findByFollowerAndFollowing(follower, following);
         follow.ifPresent(followRepository::delete);
 
@@ -57,32 +57,16 @@ public class FollowServiceImpl implements IFollowService {
     }
 
     @Override
-    public ResponseEntity<List<UserDto>> getSubscriptions(Authentication authentication) {
-        UserEntity user = userService.getUserEntityFromAuthentication(authentication);
-        List<Follow> followList = followRepository.findByFollower(user);
-        List<UserDto> subscriptions = mapFollowListToUserDtoList(followList, Follow::getFollowing);
-        return new ResponseEntity<>(subscriptions, HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<List<UserDto>> getSubscriptions(UUID uuid) {
-        UserEntity user = getUserEntityByUuid(uuid);
+        UserEntity user = userService.getUserEntityByUuid(uuid);
         List<Follow> followList = followRepository.findByFollower(user);
         List<UserDto> subscriptions = mapFollowListToUserDtoList(followList, Follow::getFollowing);
         return new ResponseEntity<>(subscriptions, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<UserDto>> getFollowers(Authentication authentication) {
-        UserEntity user = userService.getUserEntityFromAuthentication(authentication);
-        List<Follow> followList = followRepository.findByFollowing(user);
-        List<UserDto> followers = mapFollowListToUserDtoList(followList, Follow::getFollower);
-        return new ResponseEntity<>(followers, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<UserDto>> getFollowers(UUID uuid) {
-        UserEntity user = getUserEntityByUuid(uuid);
+        UserEntity user = userService.getUserEntityByUuid(uuid);
         List<Follow> followList = followRepository.findByFollowing(user);
         List<UserDto> followers = mapFollowListToUserDtoList(followList, Follow::getFollower);
         return new ResponseEntity<>(followers, HttpStatus.OK);
@@ -92,12 +76,6 @@ public class FollowServiceImpl implements IFollowService {
         return followList.stream()
                 .map(follow -> UserMapper.INSTANCE.userEntityToUserDto(userExtractor.apply(follow)))
                 .toList();
-    }
-
-
-    private UserEntity getUserEntityByUuid(UUID uuid) {
-        return userRepository.findByUuid(uuid)
-                .orElseThrow(() -> new ResourceNotFoundException("No such user found"));
     }
 }
 

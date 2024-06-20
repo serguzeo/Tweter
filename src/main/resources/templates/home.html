@@ -32,20 +32,12 @@
     </div>
     <div class="main-content">
         <div class="post-box">
-            <textarea placeholder="What's happening?"></textarea>
-            <button>Tweet</button>
+            <textarea id="postText" placeholder="What's happening?"></textarea>
+            <input type="file" id="fileInput" multiple style="display:none;">
+            <label for="fileInput" class="attachment-icon">&#128206;</label>
+            <button id="postButton">Tweet</button>
         </div>
         <div class="posts">
-            <!-- Примеры постов -->
-            <div class="post">
-                <h3>User 1</h3>
-                <p>This is a sample tweet!</p>
-            </div>
-            <div class="post">
-                <h3>User 2</h3>
-                <p>Another example tweet.</p>
-            </div>
-            <!-- Добавьте больше постов здесь -->
         </div>
     </div>
     <div class="sidebar-right">

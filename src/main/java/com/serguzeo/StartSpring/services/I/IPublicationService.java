@@ -5,9 +5,12 @@ import com.serguzeo.StartSpring.dto.PublicationDto;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+
+import java.util.List;
 import java.util.UUID;
 
 public interface IPublicationService {
+    ResponseEntity<List<PublicationDto>> findPublicationsByUserUuid(UUID uuid);
     ResponseEntity<PublicationDto> findPublicationByUuid(UUID uuid);
     ResponseEntity<PublicationDto> savePublication(Authentication authentication, NewPublicationDto newPublicationDto);
     void deletePublication(UUID publicationUuid);

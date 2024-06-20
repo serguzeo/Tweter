@@ -11,8 +11,8 @@ import com.serguzeo.StartSpring.repositories.IPublicationRepository;
 import com.serguzeo.StartSpring.repositories.IUserRepository;
 import com.serguzeo.StartSpring.services.I.IFileService;
 import com.serguzeo.StartSpring.services.I.IPublicationService;
+import com.serguzeo.StartSpring.services.I.IUserService;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +20,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +28,18 @@ import java.util.UUID;
 public class PublicationServiceImpl implements IPublicationService {
     IPublicationRepository publicationRepository;
     IUserRepository userRepository;
+    IUserService userService;
     IFileService fileService;
+
+    @Override
+    public ResponseEntity<List<PublicationDto>> findPublicationsByUserUuid(UUID uuid) {
+        UserEntity user = userService.getUserEntityByUuid(uuid);
+        List<Publication> publicationList = publicationRepository.findByUser(user);
+
+        publicationList.sort(Comparator.comparing(Publication::getPublishedAt).reversed());
+
+        return new ResponseEntity<>(mappublicationListTopublicationDtoList(publicationList), HttpStatus.OK);
+    }
 
     @Override
     public ResponseEntity<PublicationDto> findPublicationByUuid(UUID uuid) {
@@ -99,7 +107,6 @@ public class PublicationServiceImpl implements IPublicationService {
             publication.setFiles(updatedFiles);
         }
 
-        // Сохраняем обновленную публикацию
         publicationRepository.save(publication);
 
         PublicationDto publicationDto = PublicationMapper.INSTANCE.publicationToPublicationDto(publication);
@@ -113,5 +120,11 @@ public class PublicationServiceImpl implements IPublicationService {
         } else {
             throw new ResourceNotFoundException("No such publication found");
         }
+    }
+
+    private List<PublicationDto> mappublicationListTopublicationDtoList (List<Publication> publicationList) {
+        return publicationList.stream()
+                .map(PublicationMapper.INSTANCE::publicationToPublicationDto)
+                .toList();
     }
 }

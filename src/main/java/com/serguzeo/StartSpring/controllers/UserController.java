@@ -1,9 +1,11 @@
 package com.serguzeo.StartSpring.controllers;
 
+import com.serguzeo.StartSpring.dto.PublicationDto;
 import com.serguzeo.StartSpring.dto.PutUserDto;
 import com.serguzeo.StartSpring.dto.UserDto;
 import com.serguzeo.StartSpring.models.UserEntity;
 import com.serguzeo.StartSpring.services.I.IFollowService;
+import com.serguzeo.StartSpring.services.I.IPublicationService;
 import com.serguzeo.StartSpring.services.I.IUserService;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class UserController {
     private IUserService userService;
     private IFollowService followService;
+    private IPublicationService publicationService;
 
     @GetMapping("/{uuid}")
     public ResponseEntity<UserDto> findUser (@PathVariable String uuid) {
@@ -43,16 +46,6 @@ public class UserController {
         return userService.updateProfile(authentication, putUserDto);
     }
 
-    @GetMapping("/me/followers")
-    public ResponseEntity<List<UserDto>> getFollowers(Authentication authentication) {
-        return followService.getFollowers(authentication);
-    }
-
-    @GetMapping("/me/subscriptions")
-    public ResponseEntity<List<UserDto>> getSubscriptions(Authentication authentication) {
-        return followService.getSubscriptions(authentication);
-    }
-
     @GetMapping("/{uuid}/followers")
     public ResponseEntity<List<UserDto>> getFollowersByUuid(@PathVariable String uuid) {
         return followService.getFollowers(UUID.fromString(uuid));
@@ -71,5 +64,10 @@ public class UserController {
     @DeleteMapping("/{uuid}/unsubscribe")
     public ResponseEntity<?> unsubscribe(Authentication authentication, @PathVariable String uuid) {
         return followService.unsubscribe(authentication, UUID.fromString(uuid));
+    }
+
+    @GetMapping("/{uuid}/publications")
+    public ResponseEntity<List<PublicationDto>> getPublicationsByUserUuid(@PathVariable String uuid) {
+        return publicationService.findPublicationsByUserUuid(UUID.fromString(uuid));
     }
 }

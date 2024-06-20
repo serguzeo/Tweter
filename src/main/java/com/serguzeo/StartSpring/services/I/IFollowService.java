@@ -11,11 +11,7 @@ import java.util.UUID;
 
 public interface IFollowService {
     ResponseEntity<Map<String, String>> subscribe(Authentication authentication, UUID uuid);
-
     ResponseEntity<?> unsubscribe(Authentication authentication, UUID uuid);
-
-    ResponseEntity<List<UserDto>> getSubscriptions(Authentication authentication);
-    ResponseEntity<List<UserDto>> getFollowers(Authentication authentication);
     ResponseEntity<List<UserDto>> getFollowers(UUID uuid);
     ResponseEntity<List<UserDto>> getSubscriptions(UUID uuid);
 }

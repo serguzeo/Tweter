@@ -1,7 +1,6 @@
 package com.serguzeo.StartSpring.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.serguzeo.StartSpring.models.UserEntity;
 import com.serguzeo.StartSpring.models.UserFile;
 import lombok.Data;
 
@@ -12,7 +11,6 @@ import java.util.UUID;
 @Data
 public class PublicationDto {
     private UUID uuid;
-    private UserDto user;
     private String text;
     private List<UserFile> files;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")

@@ -14,5 +14,7 @@ public interface IUserService {
     ResponseEntity<UserDto> findByUsername(String username);
     ResponseEntity<UserDto> getProfile(Authentication authentication);
     ResponseEntity<UserDto> updateProfile(Authentication authentication, PutUserDto putUserDto) throws BadRequestException;
+
     UserEntity getUserEntityFromAuthentication(Authentication authentication);
+    UserEntity getUserEntityByUuid(UUID uuid);
 }

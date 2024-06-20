@@ -113,9 +113,16 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
     public UserEntity getUserEntityFromAuthentication(Authentication authentication) {
         String username = authentication.getName();
         Optional<UserEntity> userOptional = repository.findByUsername(username);
         return userOptional.orElseThrow(() -> new AuthenticationCredentialsNotFoundException("User not found"));
+    }
+
+    @Override
+    public UserEntity getUserEntityByUuid(UUID uuid) {
+        return repository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("No such user found"));
     }
 }
