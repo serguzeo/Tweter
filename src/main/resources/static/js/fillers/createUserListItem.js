@@ -1,26 +1,28 @@
-export function createUserListItem(user) {
+export function createUserListItem(user, suffix = '') {
+    const getClassWithSuffix = (baseClass) => suffix ? `${baseClass}-${suffix}` : baseClass;
+
     const listItem = document.createElement('li');
-    listItem.classList.add('user-item');
+    listItem.classList.add(getClassWithSuffix('user-item'));
 
     const userLink = document.createElement('a');
     userLink.href = `/${encodeURIComponent(user.username)}`;
-    userLink.classList.add('user-link');
+    userLink.classList.add(getClassWithSuffix('user-link'));
 
     const userAvatar = document.createElement('img');
     userAvatar.src = user.userPhotoUrl;
     userAvatar.alt = 'User Avatar';
-    userAvatar.classList.add('user-avatar');
+    userAvatar.classList.add(getClassWithSuffix('user-avatar'));
 
     const userInfo = document.createElement('div');
-    userInfo.classList.add('user-info');
+    userInfo.classList.add(getClassWithSuffix('user-info'));
 
     const username = document.createElement('p');
     username.textContent = `${user.firstName} ${user.lastName}`;
-    username.classList.add('user-username');
+    username.classList.add(getClassWithSuffix('user-username'));
 
     const tag = document.createElement('p');
     tag.textContent = `@${user.username}`;
-    tag.classList.add('user-tag');
+    tag.classList.add(getClassWithSuffix('user-tag'));
 
     userLink.appendChild(userAvatar);
     userLink.appendChild(userInfo);

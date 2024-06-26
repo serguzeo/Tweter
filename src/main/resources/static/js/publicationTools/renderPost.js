@@ -10,16 +10,16 @@ export function renderPost(post, userProfile) {
     postElement.dataset.postId = post.uuid;
 
     const authorInfo = document.createElement('div');
-    authorInfo.classList.add('author-info');
+    authorInfo.classList.add('post-author-info');
 
     const authorAvatar = document.createElement('img');
     authorAvatar.src = userProfile.userPhotoUrl; // Замените на фактический путь к аватарке пользователя
     authorAvatar.alt = 'Author Avatar';
-    authorAvatar.classList.add('author-avatar');
+    authorAvatar.classList.add('post-author-avatar');
     authorInfo.appendChild(authorAvatar);
 
     const authorDetails = document.createElement('div');
-    authorDetails.classList.add('author-details');
+    authorDetails.classList.add('post-author-details');
 
     const authorName = document.createElement('h4');
     authorName.textContent = `${userProfile.firstName} ${userProfile.lastName}`;
@@ -44,11 +44,13 @@ export function renderPost(post, userProfile) {
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('delete-post-button');
         deleteButton.textContent = '✗️';
+        deleteButton.title = "Delete"
         metaContainer.appendChild(deleteButton);
 
         const editButton = document.createElement('button');
         editButton.classList.add('edit-post-button');
         editButton.textContent = '✎️';
+        editButton.title = "Edit"
         metaContainer.appendChild(editButton);
 
         deleteButton.addEventListener('click', () => {
@@ -61,12 +63,14 @@ export function renderPost(post, userProfile) {
 
             if (editButton.textContent === '✎') {
                 editButton.textContent = '✓️';
+                editButton.title = "Confirm"
                 postText.contentEditable = 'true';
                 postText.style.border = '1px solid #ccc';
                 postText.style.padding = '5px';
                 postText.focus();
             } else {
                 editButton.textContent = '✎';
+                editButton.title = "Edit"
                 postText.contentEditable = 'false';
                 postText.style.border = 'none';
                 postText.style.padding = '0';
@@ -76,6 +80,12 @@ export function renderPost(post, userProfile) {
                 await editPost(post.uuid, formData);
             }
         });
+    } else {
+        const repostButton = document.createElement('button');
+        repostButton.classList.add('repost-post-button');
+        repostButton.textContent = '⚐';
+        repostButton.title = "Repost"
+        metaContainer.appendChild(repostButton);
     }
 
     authorInfo.appendChild(metaContainer);

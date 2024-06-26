@@ -10,6 +10,7 @@ import com.serguzeo.StartSpring.repositories.IFileRepository;
 import com.serguzeo.StartSpring.repositories.IUserRepository;
 import com.serguzeo.StartSpring.services.I.IFileService;
 import com.serguzeo.StartSpring.services.I.IUserService;
+import info.debatty.java.stringsimilarity.JaroWinkler;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.context.annotation.Primary;
@@ -20,6 +21,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -31,6 +34,7 @@ public class UserServiceImpl implements IUserService {
     IUserRepository repository;
     IFileService fileService;
     IFileRepository fileRepository;
+    private final JaroWinkler jaroWinkler = new JaroWinkler();
 
     @Override
     public ResponseEntity<UserDto> findByUuid(UUID uuid) {
@@ -42,6 +46,34 @@ public class UserServiceImpl implements IUserService {
     public ResponseEntity<UserDto> findByUsername(String username) {
         Optional<UserEntity> user = repository.findByUsername(username);
         return createResponse(user);
+    }
+
+    @Override
+    public ResponseEntity<List<UserDto>> findByPrefix(String prefix, Integer count) {
+        List<UserEntity> usersByUsername = repository.findByUsernameStartsWith(prefix);
+        List<UserEntity> usersByFullName = repository.findByFullNameStartingWith(prefix);
+
+        List<UserEntity> combinedUsers = new java.util.ArrayList<>(usersByUsername);
+
+        combinedUsers.addAll(
+                usersByFullName.stream()
+                        .filter(user -> !usersByUsername.contains(user))
+                        .toList()
+        );
+
+        combinedUsers.sort(Comparator.comparing((UserEntity user) -> {
+            String fullName = user.getFirstName() + " " + user.getLastName();
+            double similarityUsername = jaroWinkler.similarity(user.getUsername(), prefix);
+            double similarityFullName = jaroWinkler.similarity(fullName, prefix);
+            return Math.max(similarityUsername, similarityFullName);
+        }).reversed());
+
+        List<UserDto> userDtoList = combinedUsers.stream()
+                .limit(count > 0 ? count : combinedUsers.size())
+                .map(UserMapper.INSTANCE::userEntityToUserDto)
+                .toList();
+
+        return ResponseEntity.ok(userDtoList);
     }
 
     @Override

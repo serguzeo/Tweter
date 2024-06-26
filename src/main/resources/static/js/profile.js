@@ -11,6 +11,7 @@ import {setupEditButton} from "./fillers/setupEditButton.js";
 import {setupFollowButton} from "./fillers/setupFollowButton.js";
 import {fillUserStats} from "./fillers/fillUserStats.js";
 import {fillProfilePosts} from "./publicationTools/fillPosts.js";
+import {addSearchFieldListeners} from "./fillers/addSearchFieldListeners.js";
 
 
 function addListeners(user) {
@@ -55,6 +56,7 @@ async function initialize() {
     const myUser = await getUserProfile(userUsername);
     await fillLeftBar(userUsername);
     await fillRightBar(userUsername);
+    await addSearchFieldListeners();
 
 
     // get user profile using url path

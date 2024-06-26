@@ -5,12 +5,14 @@ import {getUserProfile} from "./handlers/getProfile.js";
 import {getFollowers} from "./handlers/getFollowers.js";
 import {createUserListItem} from "./fillers/createUserListItem.js";
 import {fillRightBar} from "./fillers/fillRightBar.js";
+import {addSearchFieldListeners} from "./fillers/addSearchFieldListeners.js";
 
 document.addEventListener('DOMContentLoaded', async function() {
     // fill left and right bar using current authenticated user
     const userUsername = await getMyUsername();
     await fillLeftBar(userUsername);
     await fillRightBar(userUsername);
+    await addSearchFieldListeners();
 
     // get user from url and it's followers/subscriptions
     const path = window.location.pathname;
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     for (const userObj of userListData) {
         const user = await getUserProfile(userObj.username);
-        const listItem = createUserListItem(user);
+        const listItem = createUserListItem(user, "list");
         userListContainer.appendChild(listItem);
     }
 

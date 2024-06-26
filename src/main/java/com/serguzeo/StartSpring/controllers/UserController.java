@@ -35,6 +35,15 @@ public class UserController {
         return userService.findByUsername(username);
     }
 
+    @GetMapping("/prefix/{prefix}")
+    public ResponseEntity<List<UserDto>> findUserByPrefix(
+            @PathVariable String prefix,
+            @RequestParam(required = false) String count
+    ) {
+        int countValue = (count != null) ? Integer.parseInt(count) : 8;
+        return userService.findByPrefix(prefix, countValue);
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserDto> getProfile(Authentication authentication) {
         return userService.getProfile(authentication);

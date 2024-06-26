@@ -1,0 +1,88 @@
+.search-container {
+    margin-top: 20px;
+    position: relative;
+}
+
+#searchInput {
+    width: calc(100% - 20px); /* Adjust width to fit container */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.search-results {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10; /* Ensure dropdown is above other content */
+    display: none; /* Initially hidden */
+    list-style: none; /* Remove bullet points */
+    padding: 10px; /* Add padding */
+    margin: 0; /* Remove default margin */
+    width: calc(100% - 20px); /* Make the width equal to the input field */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.search-results::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* Hide scrollbar for other browsers */
+.search-results {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.user-item-search {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin: 7px;
+}
+
+.user-link-search {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar-search {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.user-info-search {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.user-username-search {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.user-tag-search {
+    margin: 0;
+    color: #666;
+    font-size: 10px;
+}
+
+.user-username-search, .user-tag-search {
+    cursor: pointer;
+}

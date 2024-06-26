@@ -1,64 +1,13 @@
-body {
-    font-family: 'Merriweather', serif;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.sidebar-left, .sidebar-right {
-    width: 20%;
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 100vh;
-    position: sticky;
-    top: 0;
-}
-
-.sidebar-left ul, .sidebar-right ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidebar-left li, .sidebar-right li {
-    margin-bottom: 20px;
-}
-
-.sidebar-left a, .sidebar-right a {
-    text-decoration: none;
-    color: #1b527e;
-    font-weight: bold;
-}
-
-.sidebar-left a:hover, .sidebar-right a:hover {
-    text-decoration: underline;
-}
-
-.main-content {
-    width: 60%;
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-}
+/* publishing new post */
 .post-box {
     display: flex;
-    align-items: flex-start; /* Выравнивание элементов по верхнему краю */
+    align-items: flex-start;
     margin-bottom: 20px;
-    position: relative; /* Для позиционирования абсолютных элементов внутри */
+    position: relative;
 }
 
 .post-box textarea {
-    flex: 1; /* Занимает всё доступное пространство */
+    flex: 1;
     height: 100px;
     padding: 10px;
     border: 1px solid #cccccc;
@@ -78,190 +27,26 @@ body {
 }
 
 .post-box button:hover {
-    background-color: #0056b3;
+    background-color: #004196;
 }
 
 .attachment-icon {
-    padding: 10px; /* Увеличение размера кнопки-иконки */
-    font-size: 1.5rem; /* Увеличение размера иконки */
+    padding: 10px;
+    font-size: 1.5rem;
     cursor: pointer;
     background-color: #f2f2f2;
     border-radius: 50%;
     position: absolute;
     top: 40px;
     right: 12px;
-    z-index: 1; /* На переднем плане над textarea */
+    z-index: 1;
 }
 
 .attachment-icon:hover {
     background-color: #e0e0e0;
 }
 
-.files-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.files-container .file-link {
-    flex: 1 1 calc(50% - 10px); /* Два элемента на строку с отступом */
-    max-width: calc(50% - 10px);
-    box-sizing: border-box; /* Учитываем отступы в ширине */
-    text-align: center; /* Центрируем содержимое */
-    text-decoration: none;
-}
-
-.files-container img,
-.files-container video,
-.files-container audio {
-    width: 100%; /* Элемент занимает всю ширину контейнера */
-    height: auto;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.file-link img {
-    max-width: 50px; /* Уменьшаем размер иконки-заглушки */
-    margin-bottom: 5px;
-}
-
-.file-link span {
-    display: block;
-    margin: 0 0 10px;
-    font-size: 12px; /* Размер текста для имени файла */
-    color: #666;
-    text-decoration: none;
-}
-
-.file-link:hover {
-    text-decoration: none;
-}
-
-.file-details {
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.file-details p {
-    margin: 0;
-    color: #666666;
-}
-
-.files-container img {
-    max-width: 100%;
-    height: auto;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.meta-container {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-}
-
-.post-time {
-    font-size: 12px;
-    color: #888;
-    margin-left: 4px; /* Небольшой отступ слева от времени */
-}
-
-.delete-post-button, .edit-post-button {
-    font-size: 0.9rem;
-    margin-left: 1px; /* Небольшой отступ между кнопками */
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    color: #ccc; /* бледно-серый цвет */
-}
-
-.delete-post-button:hover, .edit-post-button:hover {
-    color: #bbb; /* еще бледнее серый цвет при наведении */
-}
-
-.disabled-link {
-    pointer-events: none;
-    color: gray;
-} 
-/* Изменения для пользователя в посте */
-.author-info {
-    display: flex;
-    align-items: center;
-}
-
-.author-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.author-details {
-    display: flex;
-    flex-direction: column;
-}
-
-.author-name {
-    margin: 0;
-    color: #333333;
-}
-
-.author-tag {
-    margin: 0;
-    color: #666666;
-    font-size: 14px;
-}
-
-.posts {
-    display: flex;
-    flex-direction: column;
-}
-
-.post {
-    background-color: #f9f9f9;
-    padding: 20px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.post h4 {
-    margin: 15px 0 0;
-    color: #333333;
-}
-
-.post p {
-    margin: 0 0 10px;
-    color: #666666;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-}
-
-.user-info img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.user-details h3 {
-    margin: 0;
-    color: #333;
-}
-
-.user-details p {
-    margin-top: 10px;
-    color: #666;
-    font-size: 14px;
-}
-
+/* file's attaching */
 .loading-overlay {
     position: absolute;
     top: 0;
@@ -269,7 +54,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none; /* Скрыт по умолчанию */
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -286,12 +71,4 @@ body {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-.user-info img {
-    transition: filter 0.3s ease; /* Плавный переход для фильтра */
-}
-
-.user-info img.darken-image {
-    filter: brightness(70%); /* Уменьшаем яркость до 70% при наведении */
 }

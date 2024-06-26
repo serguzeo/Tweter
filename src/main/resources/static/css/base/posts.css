@@ -1,0 +1,147 @@
+.posts {
+    display: flex;
+    flex-direction: column;
+}
+
+.post {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+/* author info */
+.post-author-info {
+    display: flex;
+    align-items: center;
+}
+
+.post-author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-author-details {
+    display: flex;
+    flex-direction: column;
+}
+
+/* author name */
+.post h4 {
+    margin: 15px 0 0;
+    color: #333333;
+}
+
+/* author tag */
+.post p {
+    margin: 0 0 10px;
+    color: #666666;
+}
+
+
+/* container with post time, delete, edit buttons */
+.meta-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.post-time {
+    font-size: 12px;
+    color: #888;
+    margin-left: 4px;
+}
+
+.delete-post-button, .edit-post-button, .repost-post-button {
+    font-size: 0.9rem;
+    margin-left: 1px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #ccc;
+}
+
+.delete-post-button:hover, .edit-post-button:hover, .repost-post-button {
+    color: #bbb;
+}
+
+/* post body */
+.post-text {
+
+}
+
+/* files in post body */
+.files-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.files-container .file-link {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+}
+
+.files-container img,
+.files-container video,
+.files-container audio {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.file-link img {
+    max-width: 50px;
+    margin-bottom: 5px;
+}
+
+.file-link span {
+    display: block;
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: #666;
+    text-decoration: none;
+}
+
+.file-link:hover {
+    text-decoration: none;
+}
+
+.file-details {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.file-details p {
+    margin: 0;
+    color: #666666;
+}
+
+.files-container img {
+    max-width: 100%;
+    height: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-author-name {
+    margin: 0;
+    color: #333333;
+}
+
+.post-author-tag {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+}

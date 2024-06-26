@@ -6,6 +6,10 @@
     <title>User List</title>
     <link rel="icon" type="image/x-icon" href="/img/ico.png">
     <link rel="stylesheet" href="/css/userList.css">
+    <link rel="stylesheet" href="/css/base/main.css">
+    <link rel="stylesheet" href="/css/base/sidebars.css">
+    <link rel="stylesheet" href="/css/base/leftBarUserProfile.css">
+    <link rel="stylesheet" href="/css/base/search.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -31,6 +35,10 @@
         </div>
     </div>
     <div class="sidebar-right">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search users...">
+            <ul id="searchResults" class="search-results"></ul>
+        </div>
         <h2>Following</h2>
         <ul id="followingList">
         </ul>

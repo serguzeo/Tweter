@@ -1,0 +1,28 @@
+.sidebar-left, .sidebar-right {
+    width: 20%;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-left ul, .sidebar-right ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-left li, .sidebar-right li {
+    margin-bottom: 20px;
+}
+
+.sidebar-left a, .sidebar-right a {
+    text-decoration: none;
+    color: #1b527e;
+    font-weight: bold;
+}
+
+.sidebar-left a:hover, .sidebar-right a:hover {
+    text-decoration: underline;
+}
