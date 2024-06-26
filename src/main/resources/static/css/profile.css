@@ -111,10 +111,29 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.meta-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
 .post-time {
     font-size: 12px;
     color: #888;
-    margin-left: auto; /* Вправо */
+    margin-left: 4px; /* Небольшой отступ слева от времени */
+}
+
+.delete-post-button, .edit-post-button {
+    font-size: 0.9rem;
+    margin-left: 1px; /* Небольшой отступ между кнопками */
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #ccc; /* бледно-серый цвет */
+}
+
+.delete-post-button:hover, .edit-post-button:hover {
+    color: #bbb; /* еще бледнее серый цвет при наведении */
 }
 
 /* Изменения для пользователя в посте */

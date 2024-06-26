@@ -1,10 +1,13 @@
 import {formatTimeSince} from "./formatTimeSince.js";
+import {deletePost} from "./deletePost.js";
+import {editPost} from "./editPost.js";
 
 export function renderPost(post, userProfile) {
     const postsContainer = document.querySelector('.posts');
 
     const postElement = document.createElement('div');
     postElement.classList.add('post');
+    postElement.dataset.postId = post.uuid;
 
     const authorInfo = document.createElement('div');
     authorInfo.classList.add('author-info');
@@ -28,16 +31,59 @@ export function renderPost(post, userProfile) {
 
     authorInfo.appendChild(authorDetails);
 
+    const metaContainer = document.createElement('div');
+    metaContainer.classList.add('meta-container');
+
     // Добавляем время публикации
     const postTime = document.createElement('span');
     postTime.classList.add('post-time');
     postTime.textContent = formatTimeSince(post.publishedAt);
-    authorInfo.appendChild(postTime);
+    metaContainer.appendChild(postTime);
 
+    if (localStorage.getItem('username') === userProfile.username) {
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-post-button');
+        deleteButton.textContent = '✗️';
+        metaContainer.appendChild(deleteButton);
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('edit-post-button');
+        editButton.textContent = '✎️';
+        metaContainer.appendChild(editButton);
+
+        deleteButton.addEventListener('click', () => {
+            deletePost(post.uuid); // Функция для удаления поста
+            postElement.remove();
+        });
+
+        editButton.addEventListener('click', async () => {
+            const postText = postElement.querySelector('.post-text');
+
+            if (editButton.textContent === '✎') {
+                editButton.textContent = '✓️';
+                postText.contentEditable = 'true';
+                postText.style.border = '1px solid #ccc';
+                postText.style.padding = '5px';
+                postText.focus();
+            } else {
+                editButton.textContent = '✎';
+                postText.contentEditable = 'false';
+                postText.style.border = 'none';
+                postText.style.padding = '0';
+
+                const formData = new FormData();
+                formData.append("text", postText.textContent);
+                await editPost(post.uuid, formData);
+            }
+        });
+    }
+
+    authorInfo.appendChild(metaContainer);
     postElement.appendChild(authorInfo);
 
     const postText = document.createElement('p');
     postText.textContent = post.text;
+    postText.classList.add('post-text');
     postElement.appendChild(postText);
 
     if (post.files && post.files.length > 0) {

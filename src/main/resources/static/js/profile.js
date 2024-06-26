@@ -13,7 +13,7 @@ import {fillUserStats} from "./fillers/fillUserStats.js";
 import {fillProfilePosts} from "./publicationTools/fillPosts.js";
 
 
-function addListeners() {
+function addListeners(user) {
     // add event listeners for edit button
     const editButton = document.querySelector('.edit-button');
     const userBio = document.querySelector('.user-meta .user-bio');
@@ -40,7 +40,6 @@ function addListeners() {
     // add event listeners for follow button
     const followButton = document.querySelector('.follow-button');
     followButton.addEventListener('click', function() {
-        const user = JSON.parse(sessionStorage.getItem('user'));
         if (followButton.textContent === "Follow") {
             subscribe(user.uuid)
         } else {
@@ -52,6 +51,7 @@ function addListeners() {
 async function initialize() {
     // fill left and right bar using current authenticated user
     const userUsername = await getMyUsername();
+    localStorage.setItem("username", userUsername);
     const myUser = await getUserProfile(userUsername);
     await fillLeftBar(userUsername);
     await fillRightBar(userUsername);
@@ -76,7 +76,7 @@ async function initialize() {
     }
 
     // add listeners for follow and setup button
-    addListeners();
+    addListeners(user);
 }
 
 document.addEventListener('DOMContentLoaded', initialize);

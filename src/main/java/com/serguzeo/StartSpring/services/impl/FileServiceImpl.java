@@ -117,9 +117,6 @@ public class FileServiceImpl implements IFileService {
                 throw new RuntimeException("Failed to delete file");
             }
 
-            UserEntity user = userFile.getUser();
-            user.setUserPhoto(null);
-
             fileRepository.delete(userFile);
         }
     }

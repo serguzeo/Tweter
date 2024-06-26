@@ -13,7 +13,6 @@ export function unsubscribe(user_uuid) {
                     followButton.classList.remove('followed');
                     followButton.textContent = 'Follow';
                 }
-                return response.json();
             } else if (response.status === 401) {
                 localStorage.clear();
                 window.location.href = '/login';

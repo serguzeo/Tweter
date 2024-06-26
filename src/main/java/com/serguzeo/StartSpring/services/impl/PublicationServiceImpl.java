@@ -82,6 +82,7 @@ public class PublicationServiceImpl implements IPublicationService {
         Publication publication = publicationOptional.get();
 
         List<UserFile> files = publication.getFiles();
+
         files.forEach(file -> fileService.deleteUserFile(file.getUuid()));
 
         publicationRepository.delete(publication);
