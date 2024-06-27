@@ -1,9 +1,16 @@
 /* publishing new post */
 .post-box {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
     margin-bottom: 20px;
     position: relative;
+}
+
+.post-buttons-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .post-box textarea {
@@ -14,10 +21,12 @@
     border-radius: 5px;
     margin-bottom: 10px;
     box-sizing: border-box;
+    resize: none;
 }
 
 .post-box button {
     padding: 10px 20px;
+    align-self: center;
     background-color: #007bff;
     color: #ffffff;
     border: none;
@@ -36,10 +45,10 @@
     cursor: pointer;
     background-color: #f2f2f2;
     border-radius: 50%;
-    position: absolute;
-    top: 40px;
-    right: 12px;
-    z-index: 1;
+    align-self: center;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    position: relative;
 }
 
 .attachment-icon:hover {

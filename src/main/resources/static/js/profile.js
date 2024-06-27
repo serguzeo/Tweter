@@ -12,9 +12,11 @@ import {setupFollowButton} from "./fillers/setupFollowButton.js";
 import {fillUserStats} from "./fillers/fillUserStats.js";
 import {fillProfilePosts} from "./publicationTools/fillPosts.js";
 import {addSearchFieldListeners} from "./fillers/addSearchFieldListeners.js";
+import {addPostButtonListener} from "./publicationTools/postButtonListener.js";
+import {fileModal} from "./fillers/fileModal.js";
 
 
-function addListeners(user) {
+async function addListeners(user) {
     // add event listeners for edit button
     const editButton = document.querySelector('.edit-button');
     const userBio = document.querySelector('.user-meta .user-bio');
@@ -40,23 +42,30 @@ function addListeners(user) {
 
     // add event listeners for follow button
     const followButton = document.querySelector('.follow-button');
-    followButton.addEventListener('click', function() {
+    followButton.addEventListener('click', function () {
         if (followButton.textContent === "Follow") {
             subscribe(user.uuid)
         } else {
             unsubscribe(user.uuid)
         }
     });
+
+
 }
 
 async function initialize() {
     // fill left and right bar using current authenticated user
     const userUsername = await getMyUsername();
     localStorage.setItem("username", userUsername);
+    sessionStorage.setItem("repliedTo", "")
     const myUser = await getUserProfile(userUsername);
     await fillLeftBar(userUsername);
     await fillRightBar(userUsername);
+    await fileModal();
     await addSearchFieldListeners();
+    await addPostButtonListener(
+        myUser, 'postButtonModal', 'postTextModal', 'fileInputModal'
+    );
 
 
     // get user profile using url path
@@ -77,8 +86,7 @@ async function initialize() {
         await setupFollowButton(myUser, user);
     }
 
-    // add listeners for follow and setup button
-    addListeners(user);
+    await addListeners(user);
 }
 
 document.addEventListener('DOMContentLoaded', initialize);
