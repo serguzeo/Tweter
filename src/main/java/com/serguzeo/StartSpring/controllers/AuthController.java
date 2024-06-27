@@ -15,7 +15,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthController {
-    private IAuthService authService;
+    private final IAuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@ModelAttribute LoginDto loginDto) {

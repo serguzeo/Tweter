@@ -31,9 +31,9 @@ import java.util.function.Consumer;
 @AllArgsConstructor
 @Primary
 public class UserServiceImpl implements IUserService {
-    IUserRepository repository;
-    IFileService fileService;
-    IFileRepository fileRepository;
+    private final IUserRepository repository;
+    private final IFileService fileService;
+    private final IFileRepository fileRepository;
     private final JaroWinkler jaroWinkler = new JaroWinkler();
 
     @Override
@@ -50,8 +50,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ResponseEntity<List<UserDto>> findByPrefix(String prefix, Integer count) {
-        List<UserEntity> usersByUsername = repository.findByUsernameStartsWith(prefix);
-        List<UserEntity> usersByFullName = repository.findByFullNameStartingWith(prefix);
+        List<UserEntity> usersByUsername = repository.findByUsernameStartsWithIgnoreCase(prefix);
+        List<UserEntity> usersByFullName = repository.findByFullNameStartsWithIgnoreCase(prefix);
 
         List<UserEntity> combinedUsers = new java.util.ArrayList<>(usersByUsername);
 

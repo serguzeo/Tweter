@@ -15,8 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequestMapping("/api/v1/publications")
 public class PublicationController {
-    IPublicationService publicationService;
-    IPublicationRepository publicationRepository;
+    private final IPublicationService publicationService;
+    private final IPublicationRepository publicationRepository;
 
     @GetMapping("/{uuid}")
     public ResponseEntity<PublicationDto> findPublication (@PathVariable String uuid) {

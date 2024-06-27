@@ -12,6 +12,7 @@ import java.util.UUID;
 public class PublicationDto {
     private UUID uuid;
     private String text;
+    private RepliedToDto repliedTo;
     private List<UserFile> files;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime publishedAt;

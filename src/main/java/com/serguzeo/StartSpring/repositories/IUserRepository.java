@@ -14,9 +14,9 @@ public interface IUserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByUsername(String username);
     Optional<UserEntity> findByEmail(String email);
     Optional<UserEntity> findByUsernameOrEmail(String username, String email);
-    List<UserEntity> findByUsernameStartsWith(String username);
-    @Query("SELECT u FROM UserEntity u WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE :prefix%")
-    List<UserEntity> findByFullNameStartingWith(@Param("prefix") String prefix);
+    List<UserEntity> findByUsernameStartsWithIgnoreCase(String username);
+    @Query("SELECT u FROM UserEntity u WHERE UPPER(CONCAT(u.firstName, ' ', u.lastName)) LIKE UPPER(CONCAT(:prefix, '%'))")
+    List<UserEntity> findByFullNameStartsWithIgnoreCase(@Param("prefix") String prefix);
 
     Boolean existsByEmail(String email);
     Boolean existsByUsername(String username);

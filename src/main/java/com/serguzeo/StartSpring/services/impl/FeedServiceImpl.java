@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Primary
 public class FeedServiceImpl implements IFeedService {
-    private IUserService userService;
-    private IFollowRepository followRepository;
-    private IPublicationRepository publicationRepository;
+    private final IUserService userService;
+    private final IFollowRepository followRepository;
+    private final IPublicationRepository publicationRepository;
 
     @Override
     public List<PublicationWithUserDto> getFeed(Authentication authentication) {

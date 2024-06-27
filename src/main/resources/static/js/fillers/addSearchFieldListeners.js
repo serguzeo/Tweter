@@ -37,9 +37,12 @@ export function addSearchFieldListeners() {
         searchResults.style.display = 'block';
     });
 
-    searchInput.addEventListener('blur', () => {
+    searchInput.addEventListener('blur', (event) => {
         setTimeout(() => {
-            searchResults.style.display = 'none';
+            // Check if the blur event target is not a link inside the search results
+            if (!searchResults.contains(document.activeElement)) {
+                searchResults.style.display = 'none';
+            }
         }, 200);
     });
 }

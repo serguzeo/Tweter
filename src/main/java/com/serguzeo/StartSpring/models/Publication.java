@@ -25,6 +25,9 @@ public class Publication {
     @JoinColumn(name = "publication_uuid")
     private List<UserFile> files;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    private RepliedTo repliedTo;
+
     @PrePersist
     protected void onCreate() {
         uuid = UUID.randomUUID();

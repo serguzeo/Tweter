@@ -21,9 +21,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
-    private IUserService userService;
-    private IFollowService followService;
-    private IPublicationService publicationService;
+    private final IUserService userService;
+    private final IFollowService followService;
+    private final IPublicationService publicationService;
 
     @GetMapping("/{uuid}")
     public ResponseEntity<UserDto> findUser (@PathVariable String uuid) {

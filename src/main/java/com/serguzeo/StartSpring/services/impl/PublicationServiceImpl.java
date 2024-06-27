@@ -5,10 +5,12 @@ import com.serguzeo.StartSpring.dto.PublicationDto;
 import com.serguzeo.StartSpring.exceptions.ResourceNotFoundException;
 import com.serguzeo.StartSpring.mappers.PublicationMapper;
 import com.serguzeo.StartSpring.models.Publication;
+import com.serguzeo.StartSpring.models.RepliedTo;
 import com.serguzeo.StartSpring.models.UserEntity;
 import com.serguzeo.StartSpring.models.UserFile;
 import com.serguzeo.StartSpring.repositories.IPublicationRepository;
 import com.serguzeo.StartSpring.repositories.IUserRepository;
+import com.serguzeo.StartSpring.repositories.RepliedToRepository;
 import com.serguzeo.StartSpring.services.I.IFileService;
 import com.serguzeo.StartSpring.services.I.IPublicationService;
 import com.serguzeo.StartSpring.services.I.IUserService;
@@ -26,10 +28,11 @@ import java.util.*;
 @AllArgsConstructor
 @Primary
 public class PublicationServiceImpl implements IPublicationService {
-    IPublicationRepository publicationRepository;
-    IUserRepository userRepository;
-    IUserService userService;
-    IFileService fileService;
+    private final RepliedToRepository repliedToRepository;
+    private final IPublicationRepository publicationRepository;
+    private final IUserRepository userRepository;
+    private final IUserService userService;
+    private final IFileService fileService;
 
     @Override
     public ResponseEntity<List<PublicationDto>> findPublicationsByUserUuid(UUID uuid) {
@@ -56,15 +59,33 @@ public class PublicationServiceImpl implements IPublicationService {
         publication.setUser(user);
         publication.setText(newPublicationDto.getText());
 
+        // add files to publication
         if (newPublicationDto.getFiles() != null && !newPublicationDto.getFiles().isEmpty()) {
             List<UserFile> files = new ArrayList<>();
             newPublicationDto.getFiles().forEach(file -> {
+                // skip empty files
                 if (file.getSize() == 0)
                     return;
+                // save non-empty files
                 UserFile userFile = fileService.saveUserFile(user, file);
                 files.add(userFile);
             });
             publication.setFiles(files);
+        }
+
+        // set the value to "repliedTo" if the post is a response
+        if (newPublicationDto.getRepliedTo() != null && !newPublicationDto.getRepliedTo().isEmpty()) {
+            // if reply uuid was passed and not empty find it
+            Publication replied = publicationRepository.findByUuid(
+                UUID.fromString(newPublicationDto.getRepliedTo())
+            ).orElseThrow(() -> new ResourceNotFoundException("No such replied publication"));
+
+            // find or create repliedTo entity to represent response
+            RepliedTo repliedTo = repliedToRepository.findRepliedToByPublication(replied).orElse(new RepliedTo(replied));
+
+            publication.setRepliedTo(
+                    repliedToRepository.save(repliedTo)
+            );
         }
 
         publicationRepository.save(publication);
@@ -81,9 +102,17 @@ public class PublicationServiceImpl implements IPublicationService {
         }
         Publication publication = publicationOptional.get();
 
+        // delete matching files
         List<UserFile> files = publication.getFiles();
-
         files.forEach(file -> fileService.deleteUserFile(file.getUuid()));
+
+        // set repliedTo to null for posts that have replied
+        Optional<RepliedTo> repliedOptional = repliedToRepository.findRepliedToByPublication(publication);
+        if (repliedOptional.isPresent()) {
+            RepliedTo repliedTo = repliedOptional.get();
+            repliedTo.setPublication(null);
+            repliedTo.setIsDeleted(true);
+        }
 
         publicationRepository.delete(publication);
     }

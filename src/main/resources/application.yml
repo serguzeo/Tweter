@@ -30,4 +30,4 @@ spring:
 
 files:
   upload:
-    directory: D:\working\jav\StartSpring\src\main\resources\files
+    directory: D:\Work\Java\Tweter\src\main\resources\files

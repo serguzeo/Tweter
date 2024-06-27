@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/v1/feed")
 public class FeedController {
-    private IFeedService feedService;
+    private final IFeedService feedService;
 
     @GetMapping
     public List<PublicationWithUserDto> getFeed(Authentication authentication) {
