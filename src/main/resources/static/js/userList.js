@@ -38,4 +38,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         userListContainer.appendChild(listItem);
     }
 
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'none';
 });

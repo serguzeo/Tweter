@@ -26,5 +26,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     await addPostButtonListener(
         userProfile, 'postButtonModal', 'postTextModal', 'fileInputModal'
     );
+
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'none';
 });
 

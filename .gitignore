@@ -6,7 +6,8 @@ target/
 **/files/*
 
 ### SECRETS ###
-application.yaml
+application-prod.yml
+.env
 
 ### STS ###
 .apt_generated

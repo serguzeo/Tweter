@@ -87,6 +87,9 @@ async function initialize() {
     }
 
     await addListeners(user);
+
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'none';
 }
 
 document.addEventListener('DOMContentLoaded', initialize);
